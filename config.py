@@ -3,7 +3,7 @@ class CFG:
     cls_image_size = 512
     seg_backbone = 'timm-efficientnet-b1'
     cls_backbone = ''
-    seg_batch_size = 6
+    seg_batch_size = 4
     cls_batch_size = 32
     num_workers = 2
     seg_lr = 1e-4
