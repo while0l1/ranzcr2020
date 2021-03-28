@@ -62,3 +62,5 @@ def train_loop(fold_id, model_path, resume=False, debug=True):
             'best_valid_loss':best_valid_loss,
         }
         torch.save(checkpoint, latest_path) # 保存最新的模型
+
+        torch.cuda.empty_cache()
