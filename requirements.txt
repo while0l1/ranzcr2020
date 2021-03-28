@@ -1,0 +1,11 @@
+timm
+segmentation_models_pytorch
+git+https://github.com/ildoonet/pytorch-gradual-warmup-lr.git
+sklearn
+torch
+albumentations
+matplotlib
+torchvision
+ast
+tqdm
+pandas
