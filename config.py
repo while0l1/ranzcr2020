@@ -1,5 +1,5 @@
 class CFG:
-    seg_image_size = 1024
+    image_size = 1024
     cls_image_size = 512
     seg_backbone = 'timm-efficientnet-b1'
     cls_backbone = ''

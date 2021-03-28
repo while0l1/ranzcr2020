@@ -6,6 +6,7 @@ import os
 import logging
 from sklearn.model_selection import GroupKFold
 import pandas as pd
+import time
 
 '''
 设置随机数种子
@@ -21,10 +22,15 @@ def seed_torch(seed=CFG.seed):
 '''
 初始化logger
 '''
-def init_logger(filename):
-    logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)
-    fh = logging.FileHandler(filename, mode='a')
-    fh.setFormatter(logging.Formatter("[%(asctime)s]:%(message)s"))
-    logger.addHandler(fh)
-    return logger
+def print_log(*args):
+    f = open(CFG.log_path, 'a')
+    f.write(f'{time.asctime()}: ')
+    for arg in args:
+        print(arg, end=' ')
+        f.write(f'{arg} ')
+    print()
+    f.write('\n')
+    f.close()
+
+def init_logger():
+    print_log('='*30, f'Log begin {time.asctime()}', '='*30)
