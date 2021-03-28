@@ -14,6 +14,7 @@ class CFG:
     cls_warm = 1
     seed = 42
     log_path = './train.log'
+    model_path = ''
     train_anno_path = ''
     train_df_path = ''
     train_img_path = '../input/ranzcr-clip-catheter-line-classification/train/'

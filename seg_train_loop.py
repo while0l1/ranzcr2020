@@ -1,12 +1,12 @@
-from .scheduler_warm import GradualWarmupSchedulerV2
+from scheduler_warm import GradualWarmupSchedulerV2
 import numpy as np
 import torch
-from .loss_fn import seg_loss_fn
-from .load_dataset import get_seg_loader
-from .seg_model import SegModel
-from .config import CFG
-from .seg_train import train_one_epoch
-from .seg_valid import valid_fn
+from loss_fn import seg_loss_fn
+from load_dataset import get_seg_loader
+from seg_model import SegModel
+from config import CFG
+from seg_train import train_one_epoch
+from seg_valid import valid_fn
 
 def train_loop(fold_id, logger, model_path, resume=False, debug=True):
     '''

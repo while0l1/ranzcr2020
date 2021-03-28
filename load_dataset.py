@@ -6,7 +6,7 @@ import numpy as np
 import ast
 import torch
 import albumentations
-from .config import CFG
+from config import CFG
 from torch.utils.data import DataLoader
 
 class RanzcrDataset(object):
