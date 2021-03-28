@@ -13,11 +13,11 @@ class CFG:
     seg_warm = 1
     cls_warm = 1
     seed = 42
-    log_path = './train.log'
-    model_path = ''
-    train_anno_path = ''
-    train_df_path = ''
-    train_img_path = '../input/ranzcr-clip-catheter-line-classification/train/'
+    log_path = 'train.log'
+    model_path = '/content/models/'
+    train_anno_path = '/content/ranzcr/train_annotations.csv'
+    train_df_path = '/content/ranzcr/train.csv'
+    train_img_path = '/content/ranzcr/train/'
     target_cols = ['ETT - Abnormal', 'ETT - Borderline',
                'ETT - Normal', 'NGT - Abnormal', 'NGT - Borderline',
                'NGT - Incompletely Imaged', 'NGT - Normal', 'CVC - Abnormal',

@@ -29,25 +29,28 @@ def train_loop(fold_id, model_path, resume=False, debug=True):
     criterion = seg_loss_fn()
 
     for epoch in range(CFG.seg_epochs):
-        print_log('='*30, 'Training Epoch', epoch, 'Fold', fold_id, '='*30)
+        print_log('='*30, f'Epoch {epoch + 1}, Fold {fold_id}', '='*30)
         print_log(f'best_train_loss:{best_train_loss}, lr:{scheduler.get_last_lr()}')
 
         scheduler_warmup.step()
+        print_log('Training...')
+        print_log('~'*15)
         train_loss = train_one_epoch(model, optimizer, criterion, train_loader, scaler, device)
         print_log(f'Train loss:{train_loss}')
 
         if train_loss < best_train_loss:
-            print_log(f'Get better loss: {best_train_loss} -> {train_loss}')
+            print_log(f'Get better train loss: {best_train_loss} -> {train_loss}')
             best_train_loss = train_loss
 
-        print_log('='*30, 'Validating Epoch', scheduler.last_epoch+1, 'Fold', fold_id, '='*30)
+        print_log('Validating...')
+        print_log('~'*15)
         print_log(f'best_valid_loss:{best_valid_loss}')
 
         valid_loss = valid_fn(model, criterion, valid_loader, device)
         print_log(f'Valid loss:{valid_loss}')
 
         if valid_loss < best_valid_loss:
-            print_log(f'Get better loss: {best_valid_loss} -> {valid_loss}')
+            print_log(f'Get better valid loss: {best_valid_loss} -> {valid_loss}')
             best_valid_loss = valid_loss
             torch.save(model.state_dict(), best_model_path) # 保存在验证集上最好的模型
 

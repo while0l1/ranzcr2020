@@ -1,4 +1,4 @@
-from .config import CFG
+from config import CFG
 import random
 import numpy as np
 import torch
