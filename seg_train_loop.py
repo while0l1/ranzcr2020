@@ -28,11 +28,28 @@ def train_loop(fold_id, model_path, resume=False, debug=True):
     scaler = torch.cuda.amp.GradScaler()
     criterion = seg_loss_fn()
 
-    for epoch in range(CFG.seg_epochs):
+    if resume:
+      checkpoint = torch.load(latest_path)
+      model.load_state_dict(checkpoint['model'])
+      try:
+        optimizer.load_state_dict(checkpoint['optimizer'])
+        scheduler.load_state_dict(checkpoint['scheduler'])
+        best_train_loss = checkpoint['best_train_loss']
+        best_valid_loss = checkpoint['best_valid_loss']
+        scheduler_warmup.load_state_dict(checkpoint['warm'])
+      except:
+        print('Not all keys match!')
+    
+    epoch_trained = scheduler_warmup.last_epoch + scheduler.last_epoch
+
+    for epoch in range(epoch_trained+1, CFG.seg_epochs+1):
         print_log('='*30, f'Epoch {epoch + 1}, Fold {fold_id}', '='*30)
         print_log(f'best_train_loss:{best_train_loss}, lr:{scheduler.get_last_lr()}')
 
-        scheduler_warmup.step()
+        if epoch_trained > CFG.seg_warm:
+          scheduler_warmup.step()
+        else:
+          scheduler.step()
         print_log('Training...')
         print_log('~'*15)
         train_loss = train_one_epoch(model, optimizer, criterion, train_loader, scaler, device)
@@ -56,6 +73,7 @@ def train_loop(fold_id, model_path, resume=False, debug=True):
 
         checkpoint = {
             'scheduler':scheduler.state_dict(),
+            'warm':scheduler_warmup.state_dict(),
             'optimizer':optimizer.state_dict(),
             'model':model.state_dict(),
             'best_train_loss':best_train_loss,
@@ -64,3 +82,4 @@ def train_loop(fold_id, model_path, resume=False, debug=True):
         torch.save(checkpoint, latest_path) # 保存最新的模型
 
         torch.cuda.empty_cache()
+        epoch_trained += 1
